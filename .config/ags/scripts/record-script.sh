@@ -36,7 +36,7 @@ cd "$(xdg-user-dir VIDEOS)" || exit
 if pgrep wf-recorder > /dev/null; then
     notify-send "Recording Stopped" "Stopped" -a 'record-script.sh' &
     pkill wf-recorder &
-    pactl unload-module module-loopback
+    pactl unload-module module-null-sink
 else
     notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'record-script.sh'
     if [[ "$1" == "--sound" ]]; then
