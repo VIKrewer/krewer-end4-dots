@@ -37,6 +37,7 @@ if pgrep wf-recorder > /dev/null; then
     notify-send "Recording Stopped" "Stopped" -a 'record-script.sh' &
     pkill wf-recorder &
     pactl unload-module module-null-sink
+    pactl unload-module module-loopback
 else
     notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'record-script.sh'
     if [[ "$1" == "--sound" ]]; then
