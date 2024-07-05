@@ -8,22 +8,18 @@ getaudiooutput() {
     pactl list sources | grep 'Name' | grep 'Headset' | grep 'output' | cut -d ' ' -f2
 }
 
-# Function to find source names
-get_sources() {
-    pactl list sources | grep 'Name' | grep 'Headset' | grep 'output' | cut -d ' ' -f2
-    pactl list sources | grep 'Name' | grep 'Headset' | grep 'input' | cut -d ' ' -f2
-}
+# Function to create virtual sink and loopback sources (Uncomment it if you want to create a virtual audio only when running this code)
+# create_combined_sink() {
+#     pactl load-module module-null-sink sink_name=Combined
 
-# Function to create virtual sink and loopback sources
-create_combined_sink() {
-    pactl load-module module-null-sink sink_name=Combined
+#     # Find and loopback the headset output source
+#     headset_output=$(pactl list sources | grep 'Name' | grep 'Headset' | grep 'output' | cut -d ' ' -f2)
+#     pactl load-module module-loopback sink=Combined source="$headset_output"
 
-    # Get the list of sources to capture
-    sources=$(get_sources)
-
-    # Loop through each source and create a loopback
-    pactl load-module module-loopback sink=Combined source=$source
-}
+#     # Find and loopback the microphone source (using role)
+#     microphone_source=$(pactl list sources | grep 'Role:' | grep 'microphone' | cut -d ' ' -f2)
+#     pactl load-module module-loopback sink=Combined source="$microphone_source"
+# }
 
 # Function to get the active monitor name
 getactivemonitor() {
@@ -36,8 +32,10 @@ cd "$(xdg-user-dir VIDEOS)" || exit
 if pgrep wf-recorder > /dev/null; then
     notify-send "Recording Stopped" "Stopped" -a 'record-script.sh' &
     pkill wf-recorder &
-    pactl unload-module module-null-sink
-    pactl unload-module module-loopback
+
+    # uncomment when creating virtual audio only when running code
+    # pactl unload-module module-null-sink
+    # pactl unload-module module-loopback
 else
     notify-send "Starting recording" 'recording_'"$(getdate)"'.mp4' -a 'record-script.sh'
     if [[ "$1" == "--sound" ]]; then
