@@ -24,7 +24,7 @@ async function getImageViewerApp(preferredApp) {
 }
 
 const IMAGE_REVEAL_DELAY = 13; // Some wait for inits n other weird stuff
-const IMAGE_VIEWER_APP = getImageViewerApp(userOptions.apps.imageViewer); // Gnome's image viewer cuz very comfortable zooming
+const IMAGE_VIEWER_APP = getImageViewerApp(userOptions.apps.qimgv); // Gnome's image viewer cuz very comfortable zooming
 const USER_CACHE_DIR = GLib.get_user_cache_dir();
 
 // Create cache folder and clear pics from previous session
@@ -216,7 +216,7 @@ const WaifuImage = (taglist) => {
                 thisBlock.attribute.imagePath = `${USER_CACHE_DIR}/ags/media/waifus/${signature}${extension}`;
                 downloadState.shown = 'download';
                 // Width/height
-                const widgetWidth = Math.min(Math.floor(waifuContent.get_allocated_width() * 0.85), width);
+                const widgetWidth = Math.min(Math.floor(waifuContent.get_allocated_width() * 0.9775), width);
                 const widgetHeight = Math.ceil(widgetWidth * height / width);
                 blockImage.set_size_request(widgetWidth, widgetHeight);
                 const showImage = () => {
