@@ -5,7 +5,7 @@ import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
 const APISERVICES = {
     'im': {
         'endpoint': 'https://api.waifu.im/search',
-        'headers': { 'Accept-Version': 'v5' },
+        'headers': { 'Accept-Version': 'v6' },
     },
     'nekos': {
         'endpoint': 'https://nekos.life/api/neko',
@@ -147,4 +147,3 @@ class WaifuService extends Service {
 }
 
 export default new WaifuService();
-
