@@ -8,7 +8,7 @@ getaudiooutput() {
     pactl list sources | grep 'Name' | grep 'Headset' | grep 'output' | cut -d ' ' -f2
 }
 
-# Function to create virtual sink and loopback sources (Uncomment it if you want to create a virtual audio only when running this code)
+# Function to create virtual sink and loopback sources (Simplified)
 # create_combined_sink() {
 #     pactl load-module module-null-sink sink_name=Combined
 
@@ -32,8 +32,6 @@ cd "$(xdg-user-dir VIDEOS)" || exit
 if pgrep wf-recorder > /dev/null; then
     notify-send "Recording Stopped" "Stopped" -a 'record-script.sh' &
     pkill wf-recorder &
-
-    # uncomment when creating virtual audio only when running code
     # pactl unload-module module-null-sink
     # pactl unload-module module-loopback
 else
@@ -43,7 +41,7 @@ else
     elif [[ "$1" == "--fullscreen-sound" ]]; then
         wf-recorder -o $(getactivemonitor) --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --audio="$(getaudiooutput)" & disown
     elif [[ "$1" == "--fullscreen-mic" ]]; then
-        create_combined_sink
+        # create_combined_sink
         wf-recorder -o $(getactivemonitor) --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t --audio="Combined.monitor" & disown 
     elif [[ "$1" == "--fullscreen" ]]; then
         wf-recorder -o $(getactivemonitor) --pixel-format yuv420p -f './recording_'"$(getdate)"'.mp4' -t & disown
